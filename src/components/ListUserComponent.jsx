@@ -1,8 +1,20 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import {listUsers} from "../services/UserService";
 
 const ListUserComponent = () => {
 
-    const dummyData = [
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        listUsers().then((response)=> {
+            setUsers(response.data);
+        }).catch(error => {
+            console.error(error);
+        })
+
+    }, []);
+
+    /*const dummyData = [
         {
             "id": 1,
             "name": "Артем",
@@ -36,7 +48,7 @@ const ListUserComponent = () => {
             "isAdmin": false,
             "balance": 2
         }
-    ]
+    ]*/
 
     const formatBooleanValue = (value) => {
         const badgeClass = value ? "bg-success" : "bg-danger";
@@ -58,12 +70,12 @@ const ListUserComponent = () => {
                     <th>User Password</th>
                     <th>User Phone</th>
                     <th>User IsAdmin</th>
-                    <th>User User Balance</th>
+                    <th>User Balance</th>
                 </tr>
                 </thead>
                 <tbody>
                 {
-                    dummyData.map(user =>
+                    users.map(user =>
                         <tr key={user.id}>
                             <td>{user.id}</td>
                             <td>{user.name}</td>
