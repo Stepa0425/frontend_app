@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {listUsers} from "../services/UserService";
+import {useNavigate} from "react-router-dom";
 
 const ListUserComponent = () => {
 
     const [users, setUsers] = useState([])
+    const navigator = useNavigate();
 
     useEffect(() => {
         listUsers().then((response)=> {
@@ -56,9 +58,14 @@ const ListUserComponent = () => {
         return <span className={`badge ${badgeClass}`}>{label}</span>;
     };
 
+    function addNewUser() {
+        navigator("/add-user")
+    }
+
     return (
         <div className="container">
             <h2 className="text-center">List of Users</h2>
+            <button className='btn btn-dark mb-2' onClick={addNewUser}>Add User</button>
             <table className="table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -69,7 +76,7 @@ const ListUserComponent = () => {
                     <th>User Address</th>
                     <th>User Password</th>
                     <th>User Phone</th>
-                    <th>User IsAdmin</th>
+                    <th>Admin</th>
                     <th>User Balance</th>
                 </tr>
                 </thead>
@@ -90,7 +97,6 @@ const ListUserComponent = () => {
                 }
                 </tbody>
             </table>
-
         </div>
     )
 }
