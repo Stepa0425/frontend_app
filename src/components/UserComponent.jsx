@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {createUser} from "../services/UserService";
+import {useNavigate} from "react-router-dom";
 
 const UserComponent = () => {
     const [name, setName] = useState("");
@@ -9,10 +11,20 @@ const UserComponent = () => {
     const [phone, setPhone] = useState("");
     const isAdmin = useState(false);
     const balance = useState(0.0);
+
+
+
+    const navigator = useNavigate();
+
     function saveUser(e) {
         e.preventDefault();
-        const user = {name, surName, email, phone, address, password, isAdmin, balance}
+        const user = {name, surName, email,address,password, phone, isAdmin, balance}
         console.log(user)
+
+        createUser(user).then((response) => {
+            console.log(response.data);
+            navigator("/users")
+        })
     }
 
     return (
