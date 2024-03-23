@@ -4,7 +4,7 @@ const FooterComponent = () => {
     return (
         <div>
             <footer className='footer'>
-<span>All rights reserved 2024 by BlackLink </span>
+<span>Все права защищены до 2024 года компанией BlackLink</span>
             </footer>
         </div>
     )

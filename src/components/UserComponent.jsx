@@ -9,22 +9,80 @@ const UserComponent = () => {
     const [address, setAddress] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const isAdmin = useState(false);
-    const balance = useState(0.0);
+    const [isAdmin] = useState(false);
+    const [balance] = useState(0.0);
 
-
-
+    const [errors, setErrors] = useState({
+        name: "",
+        surName: "",
+        email: "",
+        address: "",
+        password: "",
+        phone: ""
+    })
     const navigator = useNavigate();
 
     function saveUser(e) {
         e.preventDefault();
-        const user = {name, surName, email,address,password, phone, isAdmin, balance}
-        console.log(user)
+        if (validateForm()) {
+            const user = {name, surName, email, address, password, phone, isAdmin, balance}
+            console.log(user)
 
-        createUser(user).then((response) => {
-            console.log(response.data);
-            navigator("/users")
-        })
+            createUser(user).then((response) => {
+                console.log(response.data);
+                navigator("/users")
+            })
+        }
+    }
+
+    function validateForm() {
+        let valid = true;
+        const errorsCopy = {...errors}
+
+        if (name.trim()) {
+            errorsCopy.name = "";
+        } else {
+            errorsCopy.name = "Требуется указать имя.";
+            valid = false;
+        }
+
+        if (surName.trim()) {
+            errorsCopy.surName = "";
+        } else {
+            errorsCopy.surName = "Требуется указать фамилию.";
+            valid = false;
+        }
+
+        if (email.trim()) {
+            errorsCopy.email = "";
+        } else {
+            errorsCopy.email = "Требуется указать логин";
+            valid = false;
+        }
+
+        if (address.trim()) {
+            errorsCopy.address = "";
+        } else {
+            errorsCopy.address = "Требуется указать адрес места проживания.";
+            valid = false;
+        }
+
+        if (password.trim()) {
+            errorsCopy.password = "";
+        } else {
+            errorsCopy.password = "Требуется указать пароль.";
+            valid = false;
+        }
+
+        if (phone.trim()) {
+            errorsCopy.phone = "";
+        } else {
+            errorsCopy.phone = "Требуется указать телефон.";
+            valid = false;
+        }
+
+        setErrors(errorsCopy);
+        return valid;
     }
 
     return (
@@ -40,17 +98,14 @@ const UserComponent = () => {
                                 <input type="text"
                                        name="name"
                                        id="firstName"
-                                       className="form-control"
+                                       className={`form-control ${ errors.name ? "is-invalid" : ""}`}
                                        onChange={(e) => setName(e.target.value)}
-                                       pattern="^[a-zA-Zа-яА-Я]{1,30}$"
+                                       /*pattern="^[a-zA-Zа-яА-Я]{1,30}$"*/
                                        placeholder="Введите имя пользователя"
                                        value={name}
-                                       required=""
                                        maxLength="30"
                                 />
-                                <div className="invalid-feedback">
-                                    Требуется действительное значение
-                                </div>
+                                {errors.name && <div className="invalid-feedback">{ errors.name } </div> }
                             </div>
 
                             <div className="col-md-6">
@@ -58,17 +113,14 @@ const UserComponent = () => {
                                 <input type="text"
                                        name="surname"
                                        id="Surname"
-                                       className="form-control"
+                                       className={`form-control ${errors.surName ? "is-invalid" : ""}`}
                                        onChange={(e) => setSurName(e.target.value)}
-                                       pattern="^[a-zA-Zа-яА-Я]{1,30}$"
+                                       /*pattern="^[a-zA-Zа-яА-Я]{1,30}$"*/
                                        placeholder="Введите фамилию пользователя"
                                        value={surName}
-                                       required=""
                                        maxLength="30"
                                 />
-                                <div className="invalid-feedback">
-                                    Требуется действительное значение
-                                </div>
+                                {errors.surName && <div className="invalid-feedback">{errors.surName}</div>}
                             </div>
 
                             <div className="col-md-6">
@@ -76,19 +128,16 @@ const UserComponent = () => {
                                 <input type="text"
                                        name="phone"
                                        id="Phone"
-                                       className="form-control"
+                                       className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                                        onChange={(e) => setPhone(e.target.value)}
-                                       pattern="[0-9]*"
+                                      /* pattern="[0-9]*"*/
                                        placeholder="29XXXXXXXXX, 44XXXXXXX, 25XXXXXXX, 33ХХХХХХХ"
                                        value={phone}
                                        maxLength="9"
                                        minLength="9"
-                                       required=""
                                        inputMode="numeric"
                                 />
-                                <div className="invalid-feedback">
-                                    Требуется действительное значение
-                                </div>
+                                {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                             </div>
 
                             <div className="col-md-6">
@@ -96,36 +145,28 @@ const UserComponent = () => {
                                 <input type="email"
                                        name="email"
                                        id="Email"
-                                       className="form-control"
+                                       className={`form-control ${errors.email ? "is-invalid" : ""}`}
                                        onChange={(e) => setEmail(e.target.value)}
                                        placeholder="you@example.com"
                                        value={email}
-                                       required=""
                                 />
-                                <div className="invalid-feedback">
-                                    Требуется действительное значение
-                                </div>
+                                {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                             </div>
-                            <div className="message-container">
-                                {/* Тут должно быть содержимое для вывода сообщений */}
-                            </div>
+
                             <div className="col-md-6">
                                 <label htmlFor="password" className="form-label">Пароль</label>
                                 <div className="input-group has-validation">
                                     <input type="password"
                                            name="password"
                                            id="password"
-                                           className="form-control"
+                                           className={`form-control ${errors.password ? "is-invalid" : ""}`}
                                            onChange={(e) => setPassword(e.target.value)}
-                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
+                                           /*pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"*/
                                            placeholder="Введите пароль"
                                            value={password}
-                                           required=""
                                            maxLength="100"
                                     />
-                                    <div className="invalid-feedback">
-                                        Требуется действительное значение
-                                    </div>
+                                    {errors.password && <div className="invalid-feedback">{errors.password}</div>}
                                 </div>
                             </div>
 
@@ -134,21 +175,20 @@ const UserComponent = () => {
                                 <input type="text"
                                        name="address"
                                        id="Address"
-                                       className="form-control"
+                                       className={`form-control ${errors.address ? "is-invalid" : ""}`}
                                        onChange={(e) => setAddress(e.target.value)}
-                                       pattern="^[a-zA-Zа-яА-Я0-9\s,.ё]{1,100}$"
+                                       /*pattern="^[a-zA-Zа-яА-Я0-9\s,.ё]{1,100}$"*/
                                        placeholder="Введите адрес вашего проживания"
                                        value={address}
-                                       required=""
                                        maxLength="100"
                                 />
+                                {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                             </div>
                         </div>
 
                         <div className="row mt-3 justify-content-center align-items-end">
                             <div className="col-md-4 text-center">
                                 <button className="btn btn-dark w-100 py-2"
-                                        type="submit"
                                         onClick={saveUser}
                                 >Зарегистрироваться!
                                 </button>

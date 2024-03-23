@@ -8,7 +8,7 @@ const ListUserComponent = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        listUsers().then((response)=> {
+        listUsers().then((response) => {
             setUsers(response.data);
         }).catch(error => {
             console.error(error);
@@ -16,47 +16,12 @@ const ListUserComponent = () => {
 
     }, []);
 
-    /*const dummyData = [
-        {
-            "id": 1,
-            "name": "Артем",
-            "surName": "Масько",
-            "email": "art@gmail.com",
-            "address": "Гомель, Казимирова 5",
-            "password": "pass",
-            "phone": "295874124",
-            "isAdmin": false,
-            "balance": 10
-        },
-        {
-            "id": 2,
-            "name": "Виктор",
-            "surName": "Матвеев",
-            "email": "mat@gmail.com",
-            "address": "Речица, Сурганова 14",
-            "password": "password",
-            "phone": "295847924",
-            "isAdmin": false,
-            "balance": 87
-        },
-        {
-            "id": 3,
-            "name": "Никита",
-            "surName": "Крушин",
-            "email": "kru@gmail.com",
-            "address": "Минск, Люцинская 49",
-            "password": "ps",
-            "phone": "336548712",
-            "isAdmin": false,
-            "balance": 2
-        }
-    ]*/
-
     const formatBooleanValue = (value) => {
         const badgeClass = value ? "bg-success" : "bg-danger";
-        const label = value ? "True" : "False";
-        return <span className={`badge ${badgeClass}`}>{label}</span>;
+        const icon = value ? "✓" : "✗";
+        return <span className={`badge ${badgeClass}`}>{icon}</span>;
     };
+
 
     function addNewUser() {
         navigator("/add-user")
@@ -64,20 +29,20 @@ const ListUserComponent = () => {
 
     return (
         <div className="container">
-            <h2 className="text-center">List of Users</h2>
-            <button className='btn btn-dark mb-2' onClick={addNewUser}>Add User</button>
-            <table className="table table-striped table-bordered">
+            <h2 className="text-center">Список пользователей</h2>
+            <button className='btn btn-dark mb-2' onClick={addNewUser}>Регистрация</button>
+            <table className="table table-striped table-bordered text-center">
                 <thead>
                 <tr>
-                    <th>User Id</th>
-                    <th>User Name</th>
-                    <th>User SurName</th>
-                    <th>User Email</th>
-                    <th>User Address</th>
-                    <th>User Password</th>
-                    <th>User Phone</th>
-                    <th>Admin</th>
-                    <th>User Balance</th>
+                    <th className="align-middle">Идентификатор пользователя</th>
+                    <th className="align-middle">Имя</th>
+                    <th className="align-middle">Фамилия</th>
+                    <th className="align-middle">Логин</th>
+                    <th className="align-middle">Адрес</th>
+                    <th className="align-middle">Пароль</th>
+                    <th className="align-middle">Номер телефона</th>
+                    <th className="align-middle">Администратор</th>
+                    <th className="align-middle">Баланс</th>
                 </tr>
                 </thead>
                 <tbody>

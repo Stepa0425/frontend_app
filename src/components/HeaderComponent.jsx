@@ -2,8 +2,7 @@ import React from 'react'
 
 const HeaderComponent = ({userId, isAdmin}) => {
     return (
-        // eslint-disable-next-line react/style-prop-object
-        <div className="d-flex flex-column flex-md-row align-items-center pb-3 mb-2">
+        <div className="d-flex flex-column flex-md-row align-items-center pb-3 mb-2 ">
             <a href="/" className="d-flex align-items-center link-body-emphasis text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
                     <path fill="#000000"
